@@ -1,95 +1,153 @@
-<script setup>
-    const  {students} = useStudent();
-    const props = defineProps({
-        student: Object
-    })
-</script>
 <template>
-<!-- <div  class="flex justify-between items-center flex-col">
-
-    <table>
-        <thead>
-            <tr class="border-b border-gray-400 bg-red-100 text-neutral-800 flex justify-between items-centerq">
-                <th>Name</th>
-                <th>Company</th>
-                <th>City</th>
-                <th>Progress</th>
-                <th>Created</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="student in students" :key="student.id" :student="student" class="border-b border-gray-400 bg-gray-300 text-neutral-800">
-                <td class="border-b-0 lg:w-6 before:hidden">
-                    <UserAvatar class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
-                </td>
-                <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ student.name }}
-                </td>
-                <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ student.company }}
-                </td>
-                <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ student.city }}
-                </td>
-                <td class="lg:w-32">
-                    <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="student.progress">
-                        {{ student.progress }}
-                    </progress>
-                </td>
-                <td class="lg:w-1 whitespace-nowrap">
-                    <small class="text-gray-500 dark:text-slate-400">{{ student.created }}</small>
-                </td>
-                <td class="before:hidden lg:w-1 whitespace-nowrap">
-                    <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                        <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" />
-                        <BaseButton color="danger" :icon="mdiTrashCan" small @click="isModalDangerActive = true" />
-                    </BaseButtons>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div> -->
+<SearchBar class="flex justify-end mt-5"/>
 
 <div class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+  <div class="overflow-x-auto">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
       <div class="overflow-hidden">
-        <table class="min-w-full text-center text-sm font-light">
-          <thead class="border-b font-medium dark:border-neutral-500 bg-black h-20 text-white">
-            <tr>
-                <th>Name</th>
-                <th>School</th>
-                <th>Degree</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="border-b dark:border-neutral-500 bg-slate-200" v-for="student in students" :key="student.id" :student="student">
-                <NuxtLink :to="`/student/${student.id}`">
-                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ student.name }}</td>
-                </NuxtLink>
-                  <td class="whitespace-nowrap px-6 py-4">{{student.company}}</td>
-                  <td class="whitespace-nowrap px-6 py-4">{{student.city}}</td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="student.progress">
-                        {{ student.progress }}
-                    </progress></td>
-                  <td class="whitespace-nowrap px-6 py-4">{{student.created}}</td>
-                  <td>
-                      <!-- <input type="button" value="Approve" class="bg-blue-600 px-4 py-[2px] text-white font-mono font-bold rounded-md hover:bg-blue-900"> -->
-                      <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-600 font-medium rounded-lg text-sm px-5 py-1 text-center mr-2 mb-2">Approve ✔</button>
-                      <!-- <input type="button" value="Reject" class="bg-red-600 px-4 py-[2px] text-white font-mono font-bold mx-2 rounded-md hover:bg-red-900"> -->
-                      <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-600 font-medium rounded-lg text-sm px-5 py-1 text-center mr-2 m-2">Reject ❌</button>
-                  </td>
-                </tr>            
-            
-          </tbody>
-        </table>
+                <!-- TABLE -->
+                <div class="bg-white shadow rounded-sm my-2.5 overflow-x-auto">
+                    <table class="min-w-max w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-center">Id</th>
+                                <th class="py-3 px-6 text-left">Student</th>
+                                <th class="py-3 px-6 text-left">University</th>
+                                <th class="py-3 px-6 text-center">Status</th>
+                                <th class="py-3 px-6 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm" v-for="student in students" :key="student.id">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6 text-center">
+                                    {{ student.id }}
+                                </td>
+                                <td class="py-3 px-6 text-left">
+                                    <div class="flex items-center">
+                                        <div class="mr-2">
+                                            <img class="w-6 h-6 rounded-full" :src="student.image"/>
+                                        </div>
+                                        <span>{{ student.lastname }} {{ student.firstname }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    {{ student.to_university }}
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <div v-if="student.status==='pending'">
+                                        <button class="mr-5" @click="accepted(student.id)">✔</button>
+                                        <nuxt-link to="##" class="">❌</nuxt-link>
+                                    </div>
+                                    <div v-else-if="student.status==='accept'" class="">
+                                        <button class="mr-5 hidden" @click="accepted(student.id)">✔</button>
+                                        <nuxt-link to="##" class="">❌</nuxt-link>
+                                    </div>
+                                    <div v-else class="">
+                                        <button class="mr-5 hidden" @click="accepted(student.id)">✔</button>
+                                        <button class="" @click="accepted(student.id)">✔</button>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex item-center justify-center">
+                                        <NuxtLink :to="`/student/${student.id}`">
+                                          <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                              </svg>
+                                          </div>
+                                        </NuxtLink>
+                                        <button type="button" @click="deleteDetail(student.id)">
+                                          <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                              </svg>
+                                          </div>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
       </div>
     </div>
   </div>
 </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                students: [],
+            }
+        },
+        mounted() {
+            this.getStudents();
+            this.accepted();
+            this.accepted();
+        },
+        methods: {
+            // Function for listing all student
+            async getStudents() {
+                try {
+                    const token = localStorage.getItem('school_token');
+                    const response = await fetch('http://localhost:8000/api/student', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.students = data.data;
+                        console.log(this.students);
+                    }else {
+                        console.error('Failed to fetch users:', response.status);
+                    }
+                }catch (error) {
+                    console.error('Fetch users error:', error);
+                }
+            },
+        async accepted(id) {
+            const token = localStorage.getItem('school_token');
+            const response = fetch(`http://localhost:8000/api/scholarship/${id}/accept`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                },
+                // body: JSON.stringify({
+                // status: 'accept'
+                // })
+            })
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+            } else {
+                // alert('Failed to accept student:', response.status);
+                console.error('Failed to accept student:', response.status);
+            }
+        },
+        async deleteDetail(sid){
+            if (confirm("Are you sure you want to delete?")){
+                const token = localStorage.getItem('school_token');
+                const result = await fetch(`http://localhost:8000/api/student/${sid}`, {
+                    method: 'DELETE',
+                    headers: {
+                    // 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                    },
+                    credentials:'include'
+                });
+                // alert("deleted successfully")
+                this.getUsers();
+            }
+
+            },
+        }   
+    }
+</script>

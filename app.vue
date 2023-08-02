@@ -31,8 +31,13 @@ onMounted(() => {
 <template>
   <div>
     <!-- <NuxtWelcome /> -->
-    <NuxtLayout>
-      <NuxtPage class="p-4 sm:ml-64 mt-10" />
-    </NuxtLayout>
+    <div v-if="$route.path !== '/login'">
+      <NuxtLayout>
+        <NuxtPage class="p-4 sm:ml-64 mt-10" />
+      </NuxtLayout>
+    </div>
+    <div v-else>
+      <NuxtPage/>
+    </div>
   </div>
 </template>

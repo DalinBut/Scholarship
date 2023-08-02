@@ -2,7 +2,8 @@
 
 <template>
   <div class="p-4 sm:ml-64">
-    <StudentTable />
+    <!-- <StudentTable /> -->
+    <UniversityTable />
   </div>
 </template>
 
